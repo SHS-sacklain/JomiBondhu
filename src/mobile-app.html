@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JomiBondhu Mobile App - জমি ব্যবস্থাপনার মোবাইল অ্যাপ</title>
+    <style>
+        /* Reuse your existing CSS from homepage.html */
+        :root {
+            --primary: #2E7D32;
+            --secondary: #8BC34A;
+            --accent: #FFC107;
+            --text: #333;
+            --light: #f5f5f5;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'SolaimanLipi', 'Siyam Rupali', Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #f9f9f9;
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        /* Add new mobile-specific styles */
+        .app-showcase {
+            display: flex;
+            align-items: center;
+            padding: 3rem 0;
+        }
+        
+        .app-screenshot {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .app-screenshot img {
+            max-height: 500px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .app-features {
+            flex: 1;
+            padding: 0 2rem;
+        }
+        
+        .download-buttons {
+            margin-top: 2rem;
+        }
+        
+        .download-btn {
+            display: inline-block;
+            margin-right: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .download-btn img {
+            height: 50px;
+        }
+        
+        .feature-list {
+            margin-top: 2rem;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+        }
+        
+        .feature-icon {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-right: 1rem;
+            margin-top: 0.3rem;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .app-showcase {
+                flex-direction: column;
+            }
+            
+            .app-screenshot {
+                margin-bottom: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <img src="logo.png" alt="JomiBondhu Logo">
+                    <h1>JomiBondhu</h1>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html">হোম</a></li>
+                    <li><a href="services.html">সেবাসমূহ</a></li>
+                    <li><a href="land-check.html">জমি খোঁজ</a></li>
+                    <li><a href="dispute.html">বিরোধ নিষ্পত্তি</a></li>
+                    <li><a href="contact.html">যোগাযোগ</a></li>
+                    <li><a href="mobile-app.html" class="active">মোবাইল অ্যাপ</a></li>
+                    <li><a href="dashboard.html">ড্যাশবোর্ড</a></li>
+                    <li class="language-switcher">
+                        <span>বাংলা</span>
+                        <div class="language-dropdown">
+                            <a href="#" onclick="changeLanguage('bn')">বাংলা</a>
+                            <a href="#" onclick="changeLanguage('en')">English</a>
+                        </div>
+                    </li>
+                    <li><a href="login.html" class="btn">লগইন</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container hero-content">
+            <h2>JomiBondhu মোবাইল অ্যাপ</h2>
+            <p>আপনার জমির সমস্ত তথ্য এখন আপনার হাতের মুঠোয়। অফলাইন মোডেও কাজ করে, ইন্টারনেট ছাড়াই জমির তথ্য দেখুন।</p>
+            <div class="download-buttons">
+                <a href="#" class="download-btn">
+                    <img src="google-play-badge.png" alt="Google Play Store">
+                </a>
+                <a href="#" class="download-btn">
+                    <img src="app-store-badge.png" alt="Apple App Store">
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="app-showcase">
+        <div class="container">
+            <div class="app-showcase">
+                <div class="app-screenshot">
+                    <img src="app-screenshots.png" alt="JomiBondhu Mobile App Screenshots">
+                </div>
+                <div class="app-features">
+                    <h2 class="section-title">মোবাইল অ্যাপের বিশেষ সুবিধা</h2>
+                    <div class="feature-list">
+                        <div class="feature-item">
+                            <div class="feature-icon">📱</div>
+                            <div>
+                                <h3>অফলাইন এক্সেস</h3>
+                                <p>ইন্টারনেট সংযোগ ছাড়াই আপনার জমির রেকর্ড দেখুন</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">📍</div>
+                            <div>
+                                <h3>জিপিএস লিংকড ম্যাপ</h3>
+                                <p>আপনার জমির সঠিক অবস্থান জিপিএসের মাধ্যমে চিহ্নিত করুন</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">📷</div>
+                            <div>
+                                <h3>ডকুমেন্ট স্ক্যান</h3>
+                                <p>জমির দলিল ও নথি মোবাইল ক্যামেরা দিয়ে স্ক্যান করুন</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">🔔</div>
+                            <div>
+                                <h3>নোটিফিকেশন</h3>
+                                <p>জমি সংক্রান্ত যেকোনো আপডেটের জন্য তাৎক্ষণিক নোটিফিকেশন</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">🤖</div>
+                            <div>
+                                <h3>ভয়েস সহায়তা</h3>
+                                <p>বাংলা ভয়েস কমান্ডের মাধ্যমে জমির তথ্য জানুন</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="how-it-works">
+        <div class="container">
+            <h2 class="section-title">অ্যাপটি কিভাবে ডাউনলোড করবেন</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">১</div>
+                    <h3>ডাউনলোড করুন</h3>
+                    <p>Google Play Store বা Apple App Store থেকে অ্যাপটি ডাউনলোড করুন</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">২</div>
+                    <h3>অ্যাকাউন্ট তৈরি করুন</h3>
+                    <p>আপনার মোবাইল নম্বর দিয়ে রেজিস্ট্রেশন সম্পন্ন করুন</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">৩</div>
+                    <h3>যাচাই করুন</h3>
+                    <p>ওটিপি কোড দিয়ে আপনার অ্যাকাউন্ট যাচাই করুন</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">৪</div>
+                    <h3>ব্যবহার শুরু করুন</h3>
+                    <p>আপনার জমির তথ্য যোগ করুন এবং অ্যাপের সকল সুবিধা উপভোগ করুন</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials">
+        <div class="container">
+            <h2 class="section-title">অ্যাপ ব্যবহারকারীদের মতামত</h2>
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"গ্রামে ইন্টারনেট সংযোগ কম থাকায় অফলাইন ফিচারটি আমার জন্য খুবই উপকারী। জমির খতিয়ান এখন আমার ফোনেই সংরক্ষিত।"</p>
+                    <p class="testimonial-author">- মোঃ সেলিম, দিনাজপুর</p>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"জমির দলিল স্ক্যান করে আপলোড করার সুবিধা অসাধারণ! এখন আর দলিল হারানোর ভয় নেই।"</p>
+                    <p class="testimonial-author">- নাসরিন আক্তার, বগুড়া</p>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"ভয়েস কমান্ডের মাধ্যমে জমির তথ্য জানতে পারা আমাদের মতো অশিক্ষিত মানুষের জন্য আশীর্বাদ।"</p>
+                    <p class="testimonial-author">- আব্দুল মালেক, পাবনা</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta" style="background-color: var(--primary); padding: 3rem 0; text-align: center; color: white;">
+        <div class="container">
+            <h2 style="margin-bottom: 1rem;">আজই ডাউনলোড করুন JomiBondhu মোবাইল অ্যাপ</h2>
+            <p style="margin-bottom: 2rem; font-size: 1.1rem;">আপনার জমির নিরাপত্তা ও ব্যবস্থাপনা এখন আপনার হাতের মুঠোয়</p>
+            <div class="download-buttons">
+                <a href="#" class="download-btn">
+                    <img src="google-play-badge.png" alt="Google Play Store">
+                </a>
+                <a href="#" class="download-btn">
+                    <img src="app-store-badge.png" alt="Apple App Store">
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <!-- Same footer as homepage.html -->
+    </footer>
+
+    <script>
+        function changeLanguage(lang) {
+            if (lang === 'en') {
+                alert('Switching to English version');
+                // window.location.href = 'mobile-app-en.html';
+            } else {
+                // Default to Bangla
+                // window.location.href = 'mobile-app.html';
+            }
+        }
+    </script>
+</body>
+</html>

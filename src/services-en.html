@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JomiBondhu - Services</title>
+    <style>
+        :root {
+            --primary: #2E7D32;
+            --secondary: #8BC34A;
+            --accent: #FFC107;
+            --text: #333;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 50px;
+            margin-right: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 20px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .services-container {
+            padding: 3rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--primary);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .service-card h3 {
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <img src="logo.png" alt="JomiBondhu Logo">
+                    <h1>JomiBondhu</h1>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="land-check.html">Land Check</a></li>
+                    <li><a href="dispute.html">Dispute Resolution</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="map.html">Map</a></li>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li class="language-switcher">
+                        <span>Language</span>
+                        <div class="language-dropdown">
+                            <a href="services.html" onclick="changeLanguage('bn')">বাংলা</a>
+                            <a href="services-en.html" onclick="changeLanguage('en')">English</a>
+                        </div>
+                    </li>
+                    <li><a href="login.html" class="btn">Login</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="services-container">
+            <h2 class="section-title">Our Services</h2>
+
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">🗺️</div>
+                    <h3>Digital Land Records</h3>
+                    <p>Store all your land information digitally and access it anytime</p>
+                    <a href="land-check.html" class="btn">Learn More</a>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">🔒</div>
+                    <h3>Blockchain Security</h3>
+                    <p>Make land ownership records tamper-proof using blockchain technology</p>
+                    <a href="blockchain.html" class="btn">Learn More</a>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">⚖️</div>
+                    <h3>Dispute Resolution</h3>
+                    <p>Online system to resolve land disputes quickly and easily</p>
+                    <a href="dispute.html" class="btn">Learn More</a>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">📱</div>
+                    <h3>Mobile Access</h3>
+                    <p>Access your land records from anywhere, anytime</p>
+                    <a href="mobile-app.html" class="btn">Learn More</a>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">🤖</div>
+                    <h3>Legal Assistance</h3>
+                    <p>Use our chatbot to get answers to your legal queries</p>
+                    <a href="legal-help.html" class="btn">Learn More</a>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">🏢</div>
+                    <h3>Government Connectivity</h3>
+                    <p>Direct connection with land offices and Union Digital Centers</p>
+                    <a href="govt-connect.html" class="btn">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

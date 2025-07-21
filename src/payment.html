@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JomiBondhu - পেমেন্ট</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2E7D32;
+            --secondary: #8BC34A;
+            --accent: #FFC107;
+            --text: #333;
+            --dark: #1B5E20;
+            --light: #f5f5f5;
+        }
+        
+        body {
+            font-family: 'SolaimanLipi', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light);
+        }
+        
+        .dashboard {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            min-height: 100vh;
+        }
+        
+        .sidebar {
+            background-color: var(--dark);
+            color: white;
+            padding: 1rem;
+            position: fixed;
+            height: 100%;
+            width: 250px;
+        }
+        
+        /* Sidebar styles same as dashboard */
+        
+        .main-content {
+            padding: 2rem;
+            margin-left: 250px;
+            width: calc(100% - 250px);
+        }
+        
+        .payment-container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .payment-method {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .payment-method:hover {
+            border-color: var(--primary);
+        }
+        
+        .payment-method.selected {
+            border-color: var(--primary);
+            background-color: rgba(46, 125, 50, 0.1);
+        }
+        
+        .payment-method i {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .payment-details {
+            display: none;
+            margin-top: 1rem;
+            padding: 1rem;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+        
+        .payment-success {
+            text-align: center;
+            padding: 2rem;
+            display: none;
+        }
+        
+        .payment-success i {
+            font-size: 5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(0,0,0,0.1);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                position: relative;
+                width: 100%;
+                display: none; /* Mobile menu would be toggled */
+            }
+            
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="sidebar">
+            <!-- Same sidebar as dashboard -->
+        </div>
+        
+        <div class="main-content">
+            <div class="payment-container">
+                <h1 class="section-title">পেমেন্ট</h1>
+                
+                <div id="paymentForm">
+                    <div class="form-group">
+                        <label for="paymentType">পেমেন্ট ধরন</label>
+                        <select class="form-control" id="paymentType" required>
+                            <option value="">পেমেন্ট ধরন নির্বাচন করুন</option>
+                            <option value="survey">সার্ভে ফি - ৫০০ টাকা</option>
+                            <option value="mutation">মিউটেশন ফি - ১০০০ টাকা</option>
+                            <option value="certificate">সার্টিফিকেট ফি - ২০০ টাকা</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="landSelect">জমি নির্বাচন করুন</label>
+                        <select class="form-control" id="landSelect" required>
+                            <option value="">জমি নির্বাচন করুন</option>
+                            <option value="1">খতিয়ান: ১২৩৪, দাগ: ৫৬ (যশলং, সাভার)</option>
+                            <option value="2">খতিয়ান: ৫৬৭৮, দাগ: ১২ (বনগ্রাম, কেরানীগঞ্জ)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>পরিমাণ</label>
+                        <input type="text" class="form-control" id="paymentAmount" readonly>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>পেমেন্ট মাধ্যম</label>
+                        <div class="payment-methods">
+                            <div class="payment-method" data-method="bkash">
+                                <i class="fab fa-bootstrap" style="color: #e2136e;"></i>
+                                <p>bKash</p>
+                            </div>
+                            <div class="payment-method" data-method="nagad">
+                                <i class="fas fa-wallet" style="color: #e82a24;"></i>
+                                <p>Nagad</p>
+                            </div>
+                            <div class="payment-method" data-method="card">
+                                <i class="far fa-credit-card" style="color: #1976d2;"></i>
+                                <p>কার্ড</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="bkashPayment" class="payment-details">
+                        <div class="form-group">
+                            <label for="bkashNumber">bKash নম্বর</label>
+                            <input type="text" class="form-control" id="bkashNumber" placeholder="01XXXXXXXXX" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="bkashPin">PIN</label>
+                            <input type="password" class="form-control" id="bkashPin" placeholder="XXXX" required>
+                        </div>
+                    </div>
+                    
+                    <div id="nagadPayment" class="payment-details">
+                        <div class="form-group">
+                            <label for="nagadNumber">Nagad নম্বর</label>
+                            <input type="text" class="form-control" id="nagadNumber" placeholder="01XXXXXXXXX" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="nagadPin">PIN</label>
+                            <input type="password" class="form-control" id="nagadPin" placeholder="XXXX" required>
+                        </div>
+                    </div>
+                    
+                    <div id="cardPayment" class="payment-details">
+                        <div class="form-group">
+                            <label for="cardNumber">কার্ড নম্বর</label>
+                            <input type="text" class="form-control" id="cardNumber" placeholder="XXXX XXXX XXXX XXXX" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="cardName">কার্ড ধারকের নাম</label>
+                            <input type="text" class="form-control" id="cardName" required>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <div class="form-group">
+                                <label for="cardExpiry">মেয়াদ শেষ</label>
+                                <input type="text" class="form-control" id="cardExpiry" placeholder="MM/YY" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="cardCvv">CVV</label>
+                                <input type="password" class="form-control" id="cardCvv" placeholder="XXX" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button type="button" class="btn btn-block" id="confirmPaymentBtn">
+                        <span id="paymentBtnText">পেমেন্ট নিশ্চিত করুন</span>
+                        <span id="paymentSpinner" class="spinner" style="display: none;"></span>
+                    </button>
+                </div>
+                
+                <div id="paymentSuccess" class="payment-success">
+                    <i class="fas fa-check-circle"></i>
+                    <h2>পেমেন্ট সফল!</h2>
+                    <p id="successMessage">আপনার পেমেন্ট সফলভাবে সম্পন্ন হয়েছে</p>
+                    <p>ট্রানজেকশন আইডি: <span id="txId"></span></p>
+                    <button class="btn" id="backToDashboard" style="margin-top: 1rem;">
+                        ড্যাশবোর্ডে ফিরে যান
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check authentication
+        const authToken = localStorage.getItem('authToken');
+        if (!authToken) {
+            window.location.href = 'login.html';
+        }
+
+        // DOM Elements
+        const paymentTypeEl = document.getElementById('paymentType');
+        const landSelectEl = document.getElementById('landSelect');
+        const paymentAmountEl = document.getElementById('paymentAmount');
+        const paymentMethods = document.querySelectorAll('.payment-method');
+        const paymentDetails = document.querySelectorAll('.payment-details');
+        const confirmPaymentBtn = document.getElementById('confirmPaymentBtn');
+        const paymentBtnText = document.getElementById('paymentBtnText');
+        const paymentSpinner = document.getElementById('paymentSpinner');
+        const paymentForm = document.getElementById('paymentForm');
+        const paymentSuccess = document.getElementById('paymentSuccess');
+        const successMessageEl = document.getElementById('successMessage');
+        const txIdEl = document.getElementById('txId');
+        const backToDashboardBtn = document.getElementById('backToDashboard');
+
+        let selectedMethod = null;
+
+        // Payment type change handler
+        paymentTypeEl.addEventListener('change', function() {
+            const type = this.value;
+            let amount = 0;
+            
+            switch(type) {
+                case 'survey': amount = 500; break;
+                case 'mutation': amount = 1000; break;
+                case 'certificate': amount = 200; break;
+                default: amount = 0;
+            }
+            
+            paymentAmountEl.value = amount > 0 ? `${amount} টাকা` : '';
+        });
+
+        // Payment method selection handler
+        paymentMethods.forEach(method => {
+            method.addEventListener('click', function() {
+                selectedMethod = this.getAttribute('data-method');
+                
+                // Update UI
+                paymentMethods.forEach(m => m.classList.remove('selected'));
+                this.classList.add('selected');
+                
+                // Show relevant payment form
+                paymentDetails.forEach(form => form.style.display = 'none');
+                document.getElementById(`${selectedMethod}Payment`).style.display = 'block';
+            });
+        });
+
+        // Confirm payment handler
+        confirmPaymentBtn.addEventListener('click', function() {
+            const paymentType = paymentTypeEl.value;
+            const landId = landSelectEl.value;
+            
+            // Validate inputs
+            if (!paymentType) {
+                alert('দয়া করে পেমেন্ট ধরন নির্বাচন করুন');
+                return;
+            }
+            
+            if (!landId) {
+                alert('দয়া করে জমি নির্বাচন করুন');
+                return;
+            }
+            
+            if (!selectedMethod) {
+                alert('দয়া করে পেমেন্ট মাধ্যম নির্বাচন করুন');
+                return;
+            }
+            
+            // Validate method-specific fields
+            let isValid = true;
+            if (selectedMethod === 'bkash') {
+                if (!document.getElementById('bkashNumber').value || 
+                    !document.getElementById('bkashPin').value) {
+                    isValid = false;
+                }
+            } else if (selectedMethod === 'nagad') {
+                if (!document.getElementById('nagadNumber').value || 
+                    !document.getElementById('nagadPin').value) {
+                    isValid = false;
+                }
+            } else if (selectedMethod === 'card') {
+                if (!document.getElementById('cardNumber').value || 
+                    !document.getElementById('cardName').value ||
+                    !document.getElementById('cardExpiry').value ||
+                    !document.getElementById('cardCvv').value) {
+                    isValid = false;
+                }
+            }
+            
+            if (!isValid) {
+                alert('দয়া করে সমস্ত প্রয়োজনীয় তথ্য প্রদান করুন');
+                return;
+            }
+            
+            // Show loading spinner
+            paymentBtnText.style.display = 'none';
+            paymentSpinner.style.display = 'inline-block';
+            
+            // Simulate payment processing
+            setTimeout(() => {
+                processPayment(paymentType, landId, selectedMethod);
+            }, 2000);
+        });
+
+        // Process payment
+        function processPayment(paymentType, landId, method) {
+            // Hide spinner
+            paymentBtnText.style.display = 'inline';
+            paymentSpinner.style.display = 'none';
+            
+            // Generate random transaction ID
+            const txId = 'TX' + Math.random().toString(36).substr(2, 10).toUpperCase();
+            
+            // Show success message
+            paymentForm.style.display = 'none';
+            paymentSuccess.style.display = 'block';
+            txIdEl.textContent = txId;
+            
+            // Determine payment type text
+            let typeText = '';
+            switch(paymentType) {
+                case 'survey': typeText = 'সার্ভে ফি'; break;
+                case 'mutation': typeText = 'মিউটেশন ফি'; break;
+                case 'certificate': typeText = 'সার্টিফিকেট ফি'; break;
+            }
+            
+            successMessageEl.textContent = `আপনার ${typeText} পেমেন্ট সফলভাবে সম্পন্ন হয়েছে`;
+            
+            // In real app, this would call blockchain to record transaction
+            recordPaymentTransaction(txId, paymentType, landId, method);
+        }
+
+        // Record payment on blockchain (simulated)
+        function recordPaymentTransaction(txId, paymentType, landId, method) {
+            console.log('Recording payment to blockchain:', {
+                txId,
+                paymentType,
+                landId,
+                method,
+                timestamp: new Date().toISOString()
+            });
+        }
+
+        // Back to dashboard
+        backToDashboardBtn.addEventListener('click', function() {
+            window.location.href = 'dashboard.html';
+        });
+    </script>
+</body>
+</html>

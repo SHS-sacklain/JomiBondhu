@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Government Connect - JomiBondhu</title>
+    <style>
+        :root {
+            --primary: #2E7D32;
+            --secondary: #8BC34A;
+            --accent: #FFC107;
+            --text: #333;
+            --light: #f5f5f5;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #f9f9f9;
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            height: 50px;
+            margin-right: 10px;
+        }
+        
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            align-items: center;
+        }
+        
+        .nav-links li {
+            margin-left: 20px;
+            position: relative;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+        
+        .language-switcher {
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .language-switcher span {
+            display: flex;
+            align-items: center;
+        }
+        
+        .language-switcher span::after {
+            content: '▼';
+            font-size: 0.6rem;
+            margin-left: 5px;
+        }
+        
+        .language-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            display: none;
+            min-width: 120px;
+            z-index: 100;
+        }
+        
+        .language-switcher:hover .language-dropdown {
+            display: block;
+        }
+        
+        .language-dropdown a {
+            color: var(--text) !important;
+            display: block;
+            padding: 8px 15px;
+        }
+        
+        .language-dropdown a:hover {
+            background-color: var(--light);
+            color: var(--primary) !important;
+        }
+        
+        .hero {
+            padding: 4rem 0;
+            text-align: center;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('govt-connect-bg.jpg') no-repeat center/cover;
+            color: white;
+            margin-bottom: 3rem;
+        }
+        
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .content-section {
+            padding: 3rem 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--primary);
+        }
+        
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .service-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .service-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .office-locator {
+            background-color: white;
+            border-radius: 10px;
+            padding: 2rem;
+            margin: 3rem auto;
+            max-width: 800px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .locator-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .locator-icon {
+            font-size: 2rem;
+            margin-right: 1rem;
+            color: var(--primary);
+        }
+        
+        .search-box {
+            display: flex;
+            margin-bottom: 1.5rem;
+        }
+        
+        .search-box input {
+            flex: 1;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px 0 0 5px;
+            font-size: 1rem;
+        }
+        
+        .search-box button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0 1.5rem;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+        }
+        
+        .office-list {
+            margin-top: 1.5rem;
+        }
+        
+        .office-item {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .office-item:last-child {
+            border-bottom: none;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--accent);
+            color: var(--text);
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        footer {
+            background-color: var(--primary);
+            color: white;
+            padding: 3rem 0 1rem;
+            margin-top: 3rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-column h3 {
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+            }
+            
+            .nav-links {
+                margin-top: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .nav-links li {
+                margin: 5px 10px;
+            }
+            
+            .hero h2 {
+                font-size: 2rem;
+            }
+            
+            .search-box {
+                flex-direction: column;
+            }
+            
+            .search-box input {
+                border-radius: 5px;
+                margin-bottom: 0.5rem;
+            }
+            
+            .search-box button {
+                border-radius: 5px;
+                padding: 0.8rem;
+            }
+            
+            .office-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .office-item .btn {
+                margin-top: 0.5rem;
+                align-self: flex-end;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <img src="logo.png" alt="JomiBondhu Logo">
+                    <h1>JomiBondhu</h1>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="#">Services</a></li>
+                    <li><a href="#">Land Records</a></li>
+                    <li class="language-switcher">
+                        <span>English</span>
+                        <div class="language-dropdown">
+                            <a href="#" onclick="changeLanguage('en')">English</a>
+                            <a href="#" onclick="changeLanguage('bn')">বাংলা</a>
+                        </div>
+                    </li>
+                    <li><a href="login.html" class="btn">Login</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h2>Government Land Services Portal</h2>
+            <p>Direct access to official land records, tax payments, and government services</p>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="container">
+            <h2 class="section-title">Government Services</h2>
+            
+            <div class="service-grid">
+                <div class="service-card">
+                    <div class="service-icon">📄</div>
+                    <h3>Land Record Verification</h3>
+                    <p>Verify your land records directly with the Bangladesh Land Record and Survey Department</p>
+                    <a href="#" class="btn btn-primary">Verify Now</a>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">💵</div>
+                    <h3>Land Tax Payment</h3>
+                    <p>Pay your land taxes online through the government's official payment gateway</p>
+                    <a href="payment.html" class="btn btn-primary">Pay Taxes</a>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">🏢</div>
+                    <h3>Mutation Application</h3>
+                    <p>Submit mutation applications digitally to update land ownership records</p>
+                    <a href="#" class="btn btn-primary">Apply Now</a>
+                </div>
+            </div>
+            
+            <div class="service-grid">
+                <div class="service-card">
+                    <div class="service-icon">🗺️</div>
+                    <h3>Survey Request</h3>
+                    <p>Request official land surveys from the Survey of Bangladesh</p>
+                    <a href="#" class="btn btn-primary">Request Survey</a>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">🏛️</div>
+                    <h3>Court Case Status</h3>
+                    <p>Check the status of land-related court cases in Bangladesh</p>
+                    <a href="#" class="btn btn-primary">Check Status</a>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">📱</div>
+                    <h3>UDC Services</h3>
+                    <p>Access services from your nearest Union Digital Center</p>
+                    <a href="#" class="btn btn-primary">Find UDC</a>
+                </div>
+            </div>
+            
+            <div class="office-locator">
+                <div class="locator-header">
+                    <div class="locator-icon">📍</div>
+                    <h3>Find Land Offices Near You</h3>
+                </div>
+                
+                <div class="search-box">
+                    <input type="text" placeholder="Enter your district or upazila...">
+                    <button>Search</button>
+                </div>
+                
+                <div class="office-list">
+                    <div class="office-item">
+                        <div>
+                            <h4>Dhaka District Land Office</h4>
+                            <p>Nilkhet, Dhaka | Open 9AM-5PM (Sat-Thu)</p>
+                        </div>
+                        <a href="#" class="btn btn-primary btn-sm">View</a>
+                    </div>
+                    
+                    <div class="office-item">
+                        <div>
+                            <h4>Dhaka Settlement Office</h4>
+                            <p>Segunbagicha, Dhaka | Open 9AM-4PM (Sat-Thu)</p>
+                        </div>
+                        <a href="#" class="btn btn-primary btn-sm">View</a>
+                    </div>
+                    
+                    <div class="office-item">
+                        <div>
+                            <h4>Dhaka AC Land Office</h4>
+                            <p>Mirpur, Dhaka | Open 9AM-3PM (Sat-Wed)</p>
+                        </div>
+                        <a href="#" class="btn btn-primary btn-sm">View</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center">
+                <a href="index.html" class="btn btn-primary">Back to Home</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>JomiBondhu</h3>
+                    <p>Digital solution for rural Bangladesh's land management and dispute resolution.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Government Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Land Ministry</a></li>
+                        <li><a href="#">Land Record Dept</a></li>
+                        <li><a href="#">Survey of Bangladesh</a></li>
+                        <li><a href="#">UDC Portal</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Support</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">How to Use</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Government Connect</h3>
+                    <p>Email: govt.connect@jomibondhu.bd</p>
+                    <p>Phone: 16347 (Govt Services)</p>
+                    <p>Address: Level 7, Bangladesh Digital Complex</p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 JomiBondhu. All rights reserved.</p>
+                <p><small>Official partner of the Bangladesh Government's Digital Land Services initiative</small></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function changeLanguage(lang) {
+            if (lang === 'bn') {
+                // Redirect to Bangla version
+                window.location.href = 'govt-connect-bn.html';
+            } else {
+                // Default to English
+                window.location.href = 'govt-connect.html';
+            }
+        }
+
+        // Simple office search functionality
+        document.querySelector('.search-box button').addEventListener('click', function() {
+            const searchTerm = document.querySelector('.search-box input').value.trim().toLowerCase();
+            const offices = document.querySelectorAll('.office-item');
+            
+            if (searchTerm) {
+                offices.forEach(office => {
+                    const officeText = office.textContent.toLowerCase();
+                    if (officeText.includes(searchTerm)) {
+                        office.style.display = 'flex';
+                    } else {
+                        office.style.display = 'none';
+                    }
+                });
+            } else {
+                offices.forEach(office => {
+                    office.style.display = 'flex';
+                });
+            }
+        });
+    </script>
+</body>
+</html>

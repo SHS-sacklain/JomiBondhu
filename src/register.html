@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JomiBondhu - নিবন্ধন</title>
+    <style>
+        /* Same styles as login page with minor adjustments */
+        :root {
+            --primary: #2E7D32;
+            --secondary: #8BC34A;
+            --accent: #FFC107;
+            --text: #333;
+        }
+        
+        body {
+            font-family: 'SolaimanLipi', Arial, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        
+        .register-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+        
+        .logo {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .logo img {
+            height: 60px;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.3rem;
+            font-weight: 600;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.7rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-family: 'SolaimanLipi', Arial, sans-serif;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 0.8rem;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            width: 100%;
+            margin-top: 1rem;
+            font-family: 'SolaimanLipi', Arial, sans-serif;
+        }
+        
+        .links {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+        
+        .links a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        .terms {
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <div class="logo">
+            <img src="logo.png" alt="JomiBondhu">
+            <h2>নতুন অ্যাকাউন্ট তৈরি করুন</h2>
+        </div>
+        
+        <form id="registerForm">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="firstName">নামের প্রথম অংশ</label>
+                    <input type="text" class="form-control" id="firstName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="lastName">নামের শেষ অংশ</label>
+                    <input type="text" class="form-control" id="lastName" required>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="nid">জাতীয় ID নম্বর</label>
+                <input type="text" class="form-control" id="nid" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="mobile">মোবাইল নম্বর</label>
+                <input type="text" class="form-control" id="mobile" placeholder="01XXXXXXXXX" required>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="password">পাসওয়ার্ড</label>
+                    <input type="password" class="form-control" id="password" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="confirmPassword">পাসওয়ার্ড নিশ্চিত করুন</label>
+                    <input type="password" class="form-control" id="confirmPassword" required>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="address">ঠিকানা</label>
+                <textarea class="form-control" id="address" rows="2"></textarea>
+            </div>
+            
+            <div class="terms">
+                <input type="checkbox" id="agreeTerms" required>
+                <label for="agreeTerms">আমি JomiBondhu-এর <a href="#">শর্তাবলী</a> এবং <a href="#">গোপনীয়তা নীতি</a> মেনে নিচ্ছি</label>
+            </div>
+            
+            <button type="submit" class="btn">নিবন্ধন সম্পন্ন করুন</button>
+            
+            <div class="links">
+                <p>ইতিমধ্যে অ্যাকাউন্ট আছে? <a href="login.html">লগইন করুন</a></p>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (document.getElementById('password').value !== 
+                document.getElementById('confirmPassword').value) {
+                alert('পাসওয়ার্ড মিলছে না');
+                return;
+            }
+            
+            const userData = {
+                firstName: document.getElementById('firstName').value,
+                lastName: document.getElementById('lastName').value,
+                nid: document.getElementById('nid').value,
+                mobile: document.getElementById('mobile').value,
+                password: document.getElementById('password').value,
+                address: document.getElementById('address').value
+            };
+            
+            // API call to register user
+            fetch('/api/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(userData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('নিবন্ধন সফল! দয়া করে লগইন করুন');
+                    window.location.href = 'login.html';
+                } else {
+                    alert(data.message || 'নিবন্ধন ব্যর্থ হয়েছে');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('সার্ভার ত্রুটি');
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JomiBondhu - জমি খোঁজ</title>
+    <style>
+        :root {
+            --primary: #2E7D32;
+            --secondary: #8BC34A;
+            --accent: #FFC107;
+            --text: #333;
+        }
+        
+        body {
+            font-family: 'SolaimanLipi', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            height: 50px;
+            margin-right: 10px;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 20px;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .search-container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin: 2rem auto;
+        }
+        
+        .search-tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 1.5rem;
+        }
+        
+        .tab-btn {
+            padding: 0.8rem 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            color: #666;
+            position: relative;
+        }
+        
+        .tab-btn.active {
+            color: var(--primary);
+        }
+        
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--primary);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+        
+        .search-results {
+            margin-top: 2rem;
+            display: none;
+        }
+        
+        .result-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+            }
+            
+            .nav-links {
+                margin-top: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <img src="logo.png" alt="JomiBondhu Logo">
+                    <h1>JomiBondhu</h1>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html">হোম</a></li>
+                    <li><a href="search.html" class="active">জমি খোঁজ</a></li>
+                    <li><a href="map.html">মানচিত্র</a></li>
+                    <li><a href="dashboard.html">ড্যাশবোর্ড</a></li>
+                    <li><a href="login.html">লগইন</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="search-container">
+            <div class="search-tabs">
+                <button class="tab-btn active" data-tab="basic-search">সাধারণ খোঁজ</button>
+                <button class="tab-btn" data-tab="advance-search">উন্নত খোঁজ</button>
+                <button class="tab-btn" data-tab="dispute-search">বিরোধ খোঁজ</button>
+            </div>
+            
+            <div class="tab-content active" id="basic-search">
+                <form id="basicSearchForm">
+                    <div class="form-group">
+                        <label for="district">জেলা</label>
+                        <select class="form-control" id="district" required>
+                            <option value="">জেলা নির্বাচন করুন</option>
+                            <option value="dhaka">ঢাকা</option>
+                            <option value="chittagong">চট্টগ্রাম</option>
+                            <option value="khulna">খুলনা</option>
+                            <option value="rajshahi">রাজশাহী</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="upazila">উপজেলা</label>
+                        <select class="form-control" id="upazila" required>
+                            <option value="">উপজেলা নির্বাচন করুন</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="mouza">মৌজা</label>
+                        <input type="text" class="form-control" id="mouza" placeholder="মৌজার নাম লিখুন">
+                    </div>
+                    
+                    <button type="submit" class="btn btn-block">খোঁজ করুন</button>
+                </form>
+            </div>
+            
+            <div class="tab-content" id="advance-search">
+                <form id="advanceSearchForm">
+                    <div class="form-group">
+                        <label for="khatiyan">খতিয়ান নম্বর</label>
+                        <input type="text" class="form-control" id="khatiyan" placeholder="খতিয়ান নম্বর লিখুন">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="dag">দাগ নম্বর</label>
+                        <input type="text" class="form-control" id="dag" placeholder="দাগ নম্বর লিখুন">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="owner">মালিকের নাম</label>
+                        <input type="text" class="form-control" id="owner" placeholder="মালিকের নাম লিখুন">
+                    </div>
+                    
+                    <button type="submit" class="btn btn-block">খোঁজ করুন</button>
+                </form>
+            </div>
+            
+            <div class="tab-content" id="dispute-search">
+                <form id="disputeSearchForm">
+                    <div class="form-group">
+                        <label for="caseNo">কেস নম্বর</label>
+                        <input type="text" class="form-control" id="caseNo" placeholder="বিরোধ কেস নম্বর লিখুন">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="nothi">নথি নম্বর</label>
+                        <input type="text" class="form-control" id="nothi" placeholder="নথি নম্বর লিখুন">
+                    </div>
+                    
+                    <button type="submit" class="btn btn-block">খোঁজ করুন</button>
+                </form>
+            </div>
+            
+            <div class="search-results" id="searchResults">
+                <h3>খোঁজের ফলাফল</h3>
+                <div id="resultsContainer">
+                    <!-- Results will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab Functionality
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabId = btn.getAttribute('data-tab');
+                
+                tabBtns.forEach(b => b.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+                
+                btn.classList.add('active');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+
+        // District-Upazila Dynamic Dropdown
+        const districtSelect = document.getElementById('district');
+        const upazilaSelect = document.getElementById('upazila');
+
+        const upazilas = {
+            dhaka: ['দোহার', 'কেরানীগঞ্জ', 'নবাবগঞ্জ', 'সাভার'],
+            chittagong: ['আনোয়ারা', 'বাঁশখালী', 'বোয়ালখালী', 'চন্দনাইশ'],
+            khulna: ['ডুমুরিয়া', 'দাকোপ', 'কয়রা', 'পাইকগাছা'],
+            rajshahi: ['বাগমারা', 'চারঘাট', 'পবা', 'দুর্গাপুর']
+        };
+
+        districtSelect.addEventListener('change', () => {
+            const selectedDistrict = districtSelect.value;
+            upazilaSelect.innerHTML = '<option value="">উপজেলা নির্বাচন করুন</option>';
+            
+            if (selectedDistrict) {
+                upazilas[selectedDistrict].forEach(upazila => {
+                    const option = document.createElement('option');
+                    option.value = upazila;
+                    option.textContent = upazila;
+                    upazilaSelect.appendChild(option);
+                });
+            }
+        });
+
+        // Search Form Submissions
+        document.getElementById('basicSearchForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            performSearch('basic');
+        });
+
+        document.getElementById('advanceSearchForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            performSearch('advance');
+        });
+
+        document.getElementById('disputeSearchForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            performSearch('dispute');
+        });
+
+        function performSearch(type) {
+            const searchResults = document.getElementById('searchResults');
+            const resultsContainer = document.getElementById('resultsContainer');
+            
+            // Show loading state
+            resultsContainer.innerHTML = '<p>খোঁজ করা হচ্ছে...</p>';
+            searchResults.style.display = 'block';
+            
+            // Simulate API call
+            setTimeout(() => {
+                // Sample data - in real app this would come from API
+                const sampleData = [
+                    {
+                        khatiyan: '1234',
+                        dag: '56',
+                        mouza: 'যশলং',
+                        upazila: 'সাভার',
+                        district: 'ঢাকা',
+                        owner: 'রহিমা বেগম',
+                        area: '0.33 একর'
+                    },
+                    {
+                        khatiyan: '5678',
+                        dag: '12',
+                        mouza: 'বনগ্রাম',
+                        upazila: 'কেরানীগঞ্জ',
+                        district: 'ঢাকা',
+                        owner: 'করিম উদ্দিন',
+                        area: '0.50 একর'
+                    }
+                ];
+                
+                // Display results
+                if (sampleData.length > 0) {
+                    resultsContainer.innerHTML = '';
+                    
+                    sampleData.forEach(land => {
+                        const card = document.createElement('div');
+                        card.className = 'result-card';
+                        card.innerHTML = `
+                            <h4>${land.khatiyan} নং খতিয়ান, ${land.dag} নং দাগ</h4>
+                            <p><strong>মৌজা:</strong> ${land.mouza}, ${land.upazila}, ${land.district}</p>
+                            <p><strong>মালিক:</strong> ${land.owner}</p>
+                            <p><strong>জমির পরিমাণ:</strong> ${land.area}</p>
+                            <button class="btn" onclick="viewDetails('${land.khatiyan}', '${land.dag}')" 
+                                style="margin-top: 0.5rem; padding: 0.5rem 1rem;">
+                                বিস্তারিত দেখুন
+                            </button>
+                        `;
+                        resultsContainer.appendChild(card);
+                    });
+                } else {
+                    resultsContainer.innerHTML = '<p>কোনো ফলাফল পাওয়া যায়নি</p>';
+                }
+            }, 1000);
+        }
+        
+        function viewDetails(khatiyan, dag) {
+            alert(`বিস্তারিত দেখানো হচ্ছে: খতিয়ান ${khatiyan}, দাগ ${dag}`);
+            // In real app, this would redirect to details page or show modal
+        }
+    </script>
+</body>
+</html>

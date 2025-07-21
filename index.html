@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JomiBondhu - জমি ব্যবস্থাপনার ডিজিটাল সহকারী</title>
+    <style>
+        :root {
+            --primary: #2E7D32;
+            --secondary: #8BC34A;
+            --accent: #FFC107;
+            --text: #333;
+            --light: #f5f5f5;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'SolaimanLipi', 'Siyam Rupali', Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #f9f9f9;
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            height: 50px;
+            margin-right: 10px;
+        }
+        
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 20px;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+        
+        .language-switcher {
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .language-switcher span {
+            display: flex;
+            align-items: center;
+        }
+        
+        .language-switcher span::after {
+            content: '▼';
+            font-size: 0.6rem;
+            margin-left: 5px;
+        }
+        
+        .language-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            display: none;
+            min-width: 120px;
+            z-index: 100;
+        }
+        
+        .language-switcher:hover .language-dropdown {
+            display: block;
+        }
+        
+        .language-dropdown a {
+            color: var(--text) !important;
+            display: block;
+            padding: 8px 15px;
+        }
+        
+        .language-dropdown a:hover {
+            background-color: var(--light);
+            color: var(--primary) !important;
+        }
+
+        .hero {
+            padding: 4rem 0;
+            text-align: center;
+            background: url('land-bg.jpg') no-repeat center/cover;
+            position: relative;
+            color: white;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--accent);
+            color: var(--text);
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .features {
+            padding: 4rem 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--primary);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .feature-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .feature-card h3 {
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        .how-it-works {
+            background-color: var(--light);
+            padding: 4rem 0;
+        }
+        
+        .steps {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+        
+        .step {
+            flex: 1;
+            min-width: 250px;
+            text-align: center;
+            padding: 1rem;
+            position: relative;
+        }
+        
+        .step-number {
+            background-color: var(--primary);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .testimonials {
+            padding: 4rem 0;
+        }
+        
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .testimonial-card {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 1rem;
+        }
+        
+        .testimonial-author {
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        footer {
+            background-color: var(--primary);
+            color: white;
+            padding: 3rem 0 1rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-column h3 {
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+            }
+            
+            .nav-links {
+                margin-top: 1rem;
+            }
+            
+            .hero h2 {
+                font-size: 2rem;
+            }
+            
+            .steps {
+                flex-direction: column;
+            }
+            
+            .step {
+                margin-bottom: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <img src="logo.png" alt="JomiBondhu Logo">
+                    <h1>JomiBondhu</h1>
+                </div>
+                    <ul class="nav-links">
+                        <li><a href="index.html">হোম</a></li>
+                        <li><a href="src/services.html">সেবাসমূহ</a></li>
+                        <li><a href="src/land-check.html">জমি খোঁজ</a></li>
+                        <li><a href="src/dispute.html">বিরোধ নিষ্পত্তি</a></li>
+                        <li><a href="src/contact.html">যোগাযোগ</a></li>
+                        <li><a href="src/map.html">মানচিত্র</a></li>
+                        <li><a href="src/dashboard.html">ড্যাশবোর্ড</a></li>
+                        <li class="language-switcher">
+                            <span>বাংলা</span>
+                            <div class="language-dropdown">
+                                <a href="#" onclick="changeLanguage('bn')">বাংলা</a>
+                                <a href="#" onclick="changeLanguage('en')">English</a>
+                            </div>
+                        </li>
+                        <li><a href="src/login.html" class="btn">লগইন</a></li>
+                    </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container hero-content">
+            <h2>আপনার জমির নিরাপদ ডিজিটাল সমাধান</h2>
+            <p>বাংলাদেশের প্রথম সম্পূর্ণ বাংলা ভাষায় জমি ব্যবস্থাপনা ও বিরোধ নিষ্পত্তির প্ল্যাটফর্ম। ব্লকচেইন প্রযুক্তি ব্যবহার করে আপনার জমির মালিকানা সুরক্ষিত করুন।</p>
+            <a href="#" class="btn btn-primary">নিবন্ধন করুন</a>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">আমাদের সেবাসমূহ</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🗺️</div>
+                    <h3>জমির ডিজিটাল রেকর্ড</h3>
+                    <p>আপনার জমির সমস্ত তথ্য ডিজিটালভাবে সংরক্ষণ করুন এবং যেকোনো সময় অ্যাক্সেস করুন।</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>ব্লকচেইন সুরক্ষা</h3>
+                    <p>ব্লকচেইন প্রযুক্তি ব্যবহার করে জমির মালিকানা রেকর্ড অপরিবর্তনীয় করুন।</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚖️</div>
+                    <h3>বিরোধ নিষ্পত্তি</h3>
+                    <p>জমি সংক্রান্ত বিরোধ দ্রুত ও সহজে নিষ্পত্তির জন্য অনলাইন সিস্টেম।</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>মোবাইল অ্যাক্সেস</h3>
+                    <p>যেকোনো সময়, যেকোনো স্থান থেকে আপনার জমির তথ্য অ্যাক্সেস করুন।</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3>আইনি সহায়তা</h3>
+                    <p>আইন বিষয়ক যেকোনো প্রশ্নের উত্তর পেতে আমাদের চ্যাটবট ব্যবহার করুন।</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🏢</div>
+                    <h3>সরকারি সংযোগ</h3>
+                    <p>ভূমি অফিস ও ইউনিয়ন ডিজিটাল সেন্টারের সাথে সরাসরি সংযোগ।</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="how-it-works">
+        <div class="container">
+            <h2 class="section-title">এটি কিভাবে কাজ করে</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">১</div>
+                    <h3>নিবন্ধন করুন</h3>
+                    <p>আপনার জাতীয় আইডি ও মোবাইল নম্বর দিয়ে অ্যাকাউন্ট তৈরি করুন</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">২</div>
+                    <h3>জমি যোগ করুন</h3>
+                    <p>জমির দলিল, খতিয়ান বা সার্ভে রিপোর্ট আপলোড করুন</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">৩</div>
+                    <h3>যাচাই করুন</h3>
+                    <p>আমাদের সিস্টেম জমির তথ্য যাচাই করে ডিজিটাল রেকর্ড তৈরি করবে</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">৪</div>
+                    <h3>ব্যবহার করুন</h3>
+                    <p>আপনার জমির সম্পূর্ণ তথ্য এখন আপনার হাতের মুঠোয়</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials">
+        <div class="container">
+            <h2 class="section-title">ব্যবহারকারীদের মতামত</h2>
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"JomiBondhu ব্যবহার করে আমি আমার বাবার留下的 জমির সঠিক অবস্থান ও সীমানা জানতে পেরেছি যা আগে কখনো বুঝতে পারিনি।"</p>
+                    <p class="testimonial-author">- রহিমা বেগম, কুষ্টিয়া</p>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"জমি নিয়ে ভাইয়ের সাথে বিরোধ ছিল ৫ বছর ধরে। এই প্ল্যাটফর্মের মাধ্যমে আমরা মধ্যস্থতায় বসেছি এবং সমাধান পেয়েছি।"</p>
+                    <p class="testimonial-author">- করিম উদ্দিন, রংপুর</p>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"UDC অপারেটর হিসেবে আমি এখন সহজেই গ্রামবাসীদের তাদের জমির তথ্য খুঁজে দিতে পারি। সময় বেঁচেছে অনেক।"</p>
+                    <p class="testimonial-author">- সুমি আক্তার, UDC অপারেটর</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>JomiBondhu</h3>
+                    <p>গ্রামীণ বাংলাদেশের জমি ব্যবস্থাপনা ও বিরোধ নিষ্পত্তির ডিজিটাল সমাধান।</p>
+                </div>
+                <div class="footer-column">
+                    <h3>লিংক</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">হোম</a></li>
+                        <li><a href="#">সেবাসমূহ</a></li>
+                        <li><a href="src/land-check.html">জমি খোঁজ</a></li>
+                        <li><a href="#">বিরোধ নিষ্পত্তি</a></li>
+                        <li><a href="#">মানচিত্র</a></li>
+                        <li><a href="#">ড্যাশবোর্ড</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>সাহায্য</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">যোগাযোগ</a></li>
+                        <li><a href="#">গোপনীয়তা নীতি</a></li>
+                        <li><a href="#">শর্তাবলী</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>যোগাযোগ</h3>
+                    <p>ইমেইল: info@jomibondhu.bd</p>
+                    <p>ফোন: ১৬৩৪৫</p>
+                    <p>ঠিকানা: লেভেল ৫, বাংলাদেশ ডিজিটাল কমপ্লেক্স</p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; ২০২৩ JomiBondhu. সকল স্বত্ব সংরক্ষিত।</p>
+            </div>
+        </div>
+    </footer>
+        <script>
+        function changeLanguage(lang) {
+            if (lang === 'en') {
+                // Here you would typically redirect to English version or load translations
+                alert('Switching to English version. In a real implementation, this would load English content.');
+                // Example: window.location.href = '/en';
+            } else {
+                // Default to Bangla
+                alert('Switching to Bangla version. In a real implementation, this would load Bangla content.');
+                // Example: window.location.href = '/bn';
+            }
+        }
+    </script>
+</body>
+</html>

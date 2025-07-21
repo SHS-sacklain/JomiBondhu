@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JomiBondhu - ড্যাশবোর্ড</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2E7D32;
+            --secondary: #8BC34A;
+            --accent: #FFC107;
+            --text: #333;
+            --dark: #1B5E20;
+            --light: #f5f5f5;
+        }
+        
+        body {
+            font-family: 'SolaimanLipi', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light);
+        }
+        
+        .dashboard {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            min-height: 100vh;
+        }
+        
+        .sidebar {
+            background-color: var(--dark);
+            color: white;
+            padding: 1rem;
+            position: fixed;
+            height: 100%;
+            width: 250px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .sidebar-menu li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .sidebar-menu a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            padding: 0.8rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background-color: var(--primary);
+        }
+        
+        .sidebar-menu i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .user-profile {
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            position: absolute;
+            bottom: 20px;
+            width: calc(100% - 2rem);
+        }
+        
+        .main-content {
+            padding: 2rem;
+            margin-left: 250px;
+            width: calc(100% - 250px);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+        
+        .stat-card h3 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+        
+        .stat-card .value {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+        
+        .section-title {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary);
+        }
+        
+        .transaction {
+            background-color: white;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--primary);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 0.6rem 1rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        
+        .btn i {
+            margin-right: 5px;
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                position: relative;
+                width: 100%;
+                display: none; /* Mobile menu would be toggled */
+            }
+            
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="sidebar">
+            <div class="logo">
+                <img src="logo.png" alt="JomiBondhu">
+                <h3>JomiBondhu</h3>
+            </div>
+            
+                    <ul class="nav-links">
+                        <li><a href="index.html">হোম</a></li>
+                        <li><a href="services.html">সেবাসমূহ</a></li>
+                        <li><a href="land-check.html">জমি খোঁজ</a></li>
+                        <li><a href="dispute.html">বিরোধ নিষ্পত্তি</a></li>
+                        <li><a href="contact.html">যোগাযোগ</a></li>
+                        <li><a href="map.html">মানচিত্র</a></li>
+                        <li><a href="dashboard.html">ড্যাশবোর্ড</a></li>
+                        <li class="language-switcher">
+                            <span>বাংলা</span>
+                            <div class="language-dropdown">
+                                <a href="#" onclick="changeLanguage('bn')">বাংলা</a>
+                                <a href="#" onclick="changeLanguage('en')">English</a>
+                            </div>
+                        </li>
+                        <li><a href="login.html" class="btn">লগইন</a></li>
+                    </ul>
+            
+            <div class="user-profile">
+                <p style="font-weight: bold;" id="userName">রহিমা বেগম</p>
+                <p style="font-size: 0.8rem; opacity: 0.8;" id="userLocation">ঢাকা, বাংলাদেশ</p>
+                <a href="#" id="logoutBtn" style="display: inline-block; margin-top: 1rem; font-size: 0.8rem;">
+                    <i class="fas fa-sign-out-alt"></i> লগআউট
+                </a>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <h1 class="section-title">ড্যাশবোর্ড ওভারভিউ</h1>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>জমির সংখ্যা</h3>
+                    <div class="value" id="landCount">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>সক্রিয় বিরোধ</h3>
+                    <div class="value" id="disputeCount">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>ব্লকচেইন ট্রানজেকশন</h3>
+                    <div class="value" id="txCount">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>সর্বশেষ লগইন</h3>
+                    <div class="value" id="lastLogin">আজ</div>
+                </div>
+            </div>
+            
+            <h2 class="section-title">আমার জমিসমূহ</h2>
+            <div id="landsList">
+                <!-- Dynamic content will be loaded here -->
+                <p id="noLandsMessage" style="text-align: center; color: #666;">লোড হচ্ছে...</p>
+            </div>
+            
+            <div style="text-align: right; margin-top: 1rem;">
+                <a href="my-lands.html" class="btn">
+                    <i class="fas fa-list"></i> সব জমি দেখুন
+                </a>
+            </div>
+            
+            <h2 class="section-title">সাম্প্রতিক লেনদেন</h2>
+            <div id="transactionsList">
+                <!-- Dynamic content will be loaded here -->
+                <p id="noTransactionsMessage" style="text-align: center; color: #666;">লোড হচ্ছে...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check authentication
+        const authToken = localStorage.getItem('authToken');
+        if (!authToken) {
+            window.location.href = 'login.html';
+        }
+
+        // DOM Elements
+        const userNameEl = document.getElementById('userName');
+        const userLocationEl = document.getElementById('userLocation');
+        const landCountEl = document.getElementById('landCount');
+        const disputeCountEl = document.getElementById('disputeCount');
+        const txCountEl = document.getElementById('txCount');
+        const lastLoginEl = document.getElementById('lastLogin');
+        const landsListEl = document.getElementById('landsList');
+        const noLandsMessageEl = document.getElementById('noLandsMessage');
+        const transactionsListEl = document.getElementById('transactionsList');
+        const noTransactionsMessageEl = document.getElementById('noTransactionsMessage');
+        const logoutBtn = document.getElementById('logoutBtn');
+
+        // Sample data - replace with actual API calls
+        const userData = {
+            name: "রহিমা বেগম",
+            location: "ঢাকা, বাংলাদেশ",
+            lands: 5,
+            disputes: 2,
+            transactions: 12,
+            lastLogin: "আজ"
+        };
+
+        const landsData = [
+            {
+                id: 1,
+                khatiyan: "১২৩৪",
+                dag: "৫৬",
+                location: "যশলং, সাভার, ঢাকা",
+                area: "০.৩৩ একর",
+                txHash: "0x8a3...d4f2"
+            },
+            {
+                id: 2,
+                khatiyan: "৫৬৭৮",
+                dag: "১২",
+                location: "বনগ্রাম, কেরানীগঞ্জ, ঢাকা",
+                area: "০.৫০ একর",
+                txHash: "0x7b2...e5g1"
+            }
+        ];
+
+        const transactionsData = [
+            {
+                id: 1,
+                type: "জমি রেজিস্ট্রেশন",
+                khatiyan: "১২৩৪",
+                dag: "৫৬",
+                amount: "+ ০.৩৩ একর",
+                date: "২ দিন আগে",
+                txHash: "0x8a3...d4f2"
+            },
+            {
+                id: 2,
+                type: "সার্ভে ফি পেমেন্ট",
+                khatiyan: "৫৬৭৮",
+                dag: "১২",
+                amount: "- ৫০০ টাকা",
+                date: "১ সপ্তাহ আগে",
+                txHash: "0x7b2...e5g1"
+            }
+        ];
+
+        // Load user data
+        function loadUserData() {
+            // In real app, this would be an API call
+            // fetch('/api/user', {
+            //     headers: {
+            //         'Authorization': `Bearer ${authToken}`
+            //     }
+            // })
+            // .then(response => response.json())
+            // .then(data => {
+            //     if (data.success) {
+                    userNameEl.textContent = userData.name;
+                    userLocationEl.textContent = userData.location;
+                    landCountEl.textContent = userData.lands;
+                    disputeCountEl.textContent = userData.disputes;
+                    txCountEl.textContent = userData.transactions;
+                    lastLoginEl.textContent = userData.lastLogin;
+            //     }
+            // });
+        }
+
+        // Load lands data
+        function loadLands() {
+            // In real app, this would be an API call
+            // fetch('/api/user/lands', {
+            //     headers: {
+            //         'Authorization': `Bearer ${authToken}`
+            //     }
+            // })
+            // .then(response => response.json())
+            // .then(data => {
+                if (landsData.length > 0) {
+                    noLandsMessageEl.style.display = 'none';
+                    landsListEl.innerHTML = '';
+                    
+                    landsData.forEach(land => {
+                        const landCard = document.createElement('div');
+                        landCard.className = 'transaction';
+                        landCard.innerHTML = `
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div>
+                                    <h3 style="margin: 0;">${land.location}</h3>
+                                    <p style="margin: 0.3rem 0; color: #666;">খতিয়ান: ${land.khatiyan}, দাগ: ${land.dag}</p>
+                                </div>
+                                <span style="color: var(--primary); font-weight: bold;">${land.area}</span>
+                            </div>
+                            <div style="margin-top: 0.5rem;">
+                                <button class="btn" onclick="viewLandDetails('${land.khatiyan}', '${land.dag}')">
+                                    <i class="fas fa-eye"></i> বিস্তারিত দেখুন
+                                </button>
+                            </div>
+                        `;
+                        landsListEl.appendChild(landCard);
+                    });
+                } else {
+                    noLandsMessageEl.textContent = 'কোনো জমি পাওয়া যায়নি';
+                }
+            // });
+        }
+
+        // Load transactions
+        function loadTransactions() {
+            // In real app, this would be an API call
+            // fetch('/api/user/transactions', {
+            //     headers: {
+            //         'Authorization': `Bearer ${authToken}`
+            //     }
+            // })
+            // .then(response => response.json())
+            // .then(data => {
+                if (transactionsData.length > 0) {
+                    noTransactionsMessageEl.style.display = 'none';
+                    transactionsListEl.innerHTML = '';
+                    
+                    transactionsData.forEach(tx => {
+                        const txCard = document.createElement('div');
+                        txCard.className = 'transaction';
+                        txCard.innerHTML = `
+                            <div style="display: flex; justify-content: space-between;">
+                                <div>
+                                    <strong>${tx.type}</strong>
+                                    <p style="margin: 0.3rem 0; color: #666;">খতিয়ান: ${tx.khatiyan}, দাগ: ${tx.dag}</p>
+                                </div>
+                                <div style="text-align: right;">
+                                    <span style="color: ${tx.amount.startsWith('+') ? 'var(--primary)' : '#d32f2f'};">${tx.amount}</span>
+                                    <p style="margin: 0.3rem 0; color: #666;">${tx.date}</p>
+                                </div>
+                            </div>
+                            <button class="btn" onclick="viewBlockchainTx('${tx.txHash}')" 
+                                style="margin-top: 0.5rem; padding: 0.3rem 0.5rem;">
+                                <i class="fas fa-link"></i> ব্লকচেইন রেকর্ড
+                            </button>
+                        `;
+                        transactionsListEl.appendChild(txCard);
+                    });
+                } else {
+                    noTransactionsMessageEl.textContent = 'কোনো লেনদেন পাওয়া যায়নি';
+                }
+            // });
+        }
+
+        // Logout function
+        logoutBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            localStorage.removeItem('authToken');
+            window.location.href = 'login.html';
+        });
+
+        // Global functions
+        window.viewLandDetails = function(khatiyan, dag) {
+            window.location.href = `land-details.html?khatiyan=${khatiyan}&dag=${dag}`;
+        };
+
+        window.viewBlockchainTx = function(txHash) {
+            window.open(`https://testnet.example.com/tx/${txHash}`, '_blank');
+        };
+
+        // Initial load
+        loadUserData();
+        loadLands();
+        loadTransactions();
+    </script>
+</body>
+</html>
