@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JomiBondhu - ড্যাশবোর্ড</title>
+    <title>JomiBondhu - বিস্তারিত ড্যাশবোর্ড</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -38,7 +38,7 @@
             min-height: 100vh;
         }
         
-        /* ========== Modern Sidebar ========== */
+        /* ========== Enhanced Sidebar Styles ========== */
         .sidebar {
             width: 280px;
             background: linear-gradient(to bottom, var(--dark), var(--darker));
@@ -50,8 +50,10 @@
             box-shadow: 2px 0 15px rgba(0,0,0,0.1);
             transition: var(--transition);
             overflow-y: auto;
+            display: flex;
+            flex-direction: column;
         }
-        
+
         .sidebar-header {
             display: flex;
             align-items: center;
@@ -59,35 +61,37 @@
             padding-bottom: 1.5rem;
             border-bottom: 1px solid rgba(255,255,255,0.1);
         }
-        
+
         .logo {
             display: flex;
             align-items: center;
             gap: 12px;
         }
-        
+
         .logo img {
             height: 36px;
             width: 36px;
             object-fit: contain;
         }
-        
+
         .logo-text {
             font-size: 1.25rem;
             font-weight: 600;
             color: white;
         }
-        
+
         .sidebar-menu {
             list-style: none;
             padding: 0;
-            margin-top: 1.5rem;
+            margin: 0;
+            flex-grow: 1;
         }
-        
+
         .sidebar-menu li {
             margin-bottom: 0.5rem;
+            position: relative;
         }
-        
+
         .sidebar-menu a {
             color: rgba(255,255,255,0.9);
             text-decoration: none;
@@ -98,41 +102,112 @@
             transition: var(--transition);
             font-size: 0.95rem;
         }
-        
+
         .sidebar-menu a:hover {
             background-color: rgba(255,255,255,0.1);
             transform: translateX(5px);
         }
-        
+
         .sidebar-menu a.active {
             background-color: var(--primary);
             box-shadow: var(--shadow-sm);
             font-weight: 500;
         }
-        
+
         .sidebar-menu i {
             width: 24px;
             text-align: center;
             margin-right: 12px;
             font-size: 1rem;
         }
-        
+
+        /* Submenu Styles */
+        .has-submenu > a::after {
+            content: '\f078';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            margin-left: auto;
+            font-size: 0.8rem;
+            transition: transform 0.3s ease;
+        }
+
+        .has-submenu.active > a::after {
+            transform: rotate(180deg);
+        }
+
+        .submenu {
+            list-style: none;
+            padding-left: 1.5rem;
+            margin-top: 0.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .submenu.active {
+            max-height: 500px;
+        }
+
+        .submenu a {
+            padding: 0.6rem 1rem;
+            font-size: 0.85rem;
+            background-color: rgba(0,0,0,0.1);
+        }
+
+        .submenu a:hover {
+            background-color: rgba(0,0,0,0.2);
+        }
+
+        /* Notification Badge */
+        .menu-badge {
+            background-color: var(--accent);
+            color: var(--dark);
+            font-size: 0.7rem;
+            font-weight: bold;
+            padding: 0.2rem 0.4rem;
+            border-radius: 10px;
+            margin-left: auto;
+        }
+
+        /* Search Box */
+        .sidebar-search {
+            padding: 1rem;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .sidebar-search input {
+            width: 100%;
+            padding: 0.5rem 1rem 0.5rem 2rem;
+            border-radius: 20px;
+            border: none;
+            background-color: rgba(255,255,255,0.1);
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        .sidebar-search i {
+            position: absolute;
+            left: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255,255,255,0.7);
+        }
+
+        /* User Profile */
         .user-profile {
             margin-top: auto;
             padding-top: 1.5rem;
             border-top: 1px solid rgba(255,255,255,0.1);
-            position: absolute;
-            bottom: 20px;
-            width: calc(100% - 2rem);
         }
-        
+
         .profile-info {
             display: flex;
             align-items: center;
             gap: 12px;
             margin-bottom: 1rem;
         }
-        
+
         .profile-avatar {
             width: 40px;
             height: 40px;
@@ -143,40 +218,122 @@
             justify-content: center;
             color: var(--dark);
             font-weight: bold;
+            position: relative;
         }
-        
+
+        .online-status {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 10px;
+            height: 10px;
+            background-color: #4CAF50;
+            border-radius: 50%;
+            border: 2px solid var(--dark);
+        }
+
         .profile-text h4 {
             margin: 0;
             font-size: 0.95rem;
             font-weight: 500;
         }
-        
+
         .profile-text p {
             margin: 0;
             font-size: 0.8rem;
             opacity: 0.8;
         }
-        
-        .logout-btn {
-            display: inline-flex;
-            align-items: center;
-            color: white;
-            background-color: rgba(255,255,255,0.1);
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            text-decoration: none;
-            font-size: 0.85rem;
-            transition: var(--transition);
+
+        .profile-actions {
+            display: flex;
+            gap: 0.5rem;
         }
-        
-        .logout-btn:hover {
+
+        .profile-btn {
+            flex: 1;
+            text-align: center;
+            padding: 0.5rem;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 5px;
+            color: white;
+            font-size: 0.8rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .profile-btn:hover {
             background-color: rgba(255,255,255,0.2);
         }
-        
-        .logout-btn i {
-            margin-right: 8px;
+
+        /* Collapsed Sidebar */
+        .sidebar.collapsed {
+            width: 80px;
         }
-        
+
+        .sidebar.collapsed .logo-text,
+        .sidebar.collapsed .menu-text,
+        .sidebar.collapsed .submenu,
+        .sidebar.collapsed .menu-badge,
+        .sidebar.collapsed .profile-text,
+        .sidebar.collapsed .profile-actions,
+        .sidebar.collapsed .has-submenu > a::after {
+            display: none;
+        }
+
+        .sidebar.collapsed .logo {
+            justify-content: center;
+        }
+
+        .sidebar.collapsed .sidebar-menu a {
+            justify-content: center;
+            padding: 0.8rem 0;
+        }
+
+        .sidebar.collapsed .sidebar-menu i {
+            margin-right: 0;
+            font-size: 1.2rem;
+        }
+
+        .sidebar.collapsed .sidebar-search {
+            display: none;
+        }
+
+        .sidebar.collapsed .user-profile {
+            padding: 1rem 0;
+            text-align: center;
+        }
+
+        .sidebar.collapsed .profile-info {
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        /* Toggle Button */
+        .toggle-sidebar {
+            position: absolute;
+            top: 1rem;
+            right: -12px;
+            width: 24px;
+            height: 24px;
+            background-color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 5px rgba(0,0,0,0.2);
+            cursor: pointer;
+            z-index: 101;
+        }
+
+        .toggle-sidebar i {
+            color: var(--dark);
+            font-size: 0.8rem;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar.collapsed .toggle-sidebar i {
+            transform: rotate(180deg);
+        }
+
         /* ========== Main Content Area ========== */
         .main-content {
             flex: 1;
@@ -338,6 +495,7 @@
             padding: 1.5rem;
         }
         
+        /* ========== Enhanced Card Styles ========== */
         .land-item {
             display: flex;
             justify-content: space-between;
@@ -402,6 +560,94 @@
         
         .amount-negative {
             color: #F44336;
+        }
+        
+        /* ========== New Components ========== */
+        .progress-container {
+            margin-top: 1rem;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background-color: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background-color: var(--primary);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+        
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+        
+        .activity-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 0.75rem 0;
+            border-bottom: 1px dashed rgba(0,0,0,0.1);
+        }
+        
+        .activity-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: rgba(46, 125, 50, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            color: var(--primary);
+            flex-shrink: 0;
+        }
+        
+        .activity-content {
+            flex: 1;
+        }
+        
+        .activity-content h4 {
+            margin: 0 0 0.25rem;
+            font-size: 0.95rem;
+            color: var(--text);
+        }
+        
+        .activity-content p {
+            margin: 0;
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+        
+        .activity-time {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            margin-top: 0.25rem;
+        }
+        
+        .map-container {
+            height: 200px;
+            background-color: #e0e0e0;
+            border-radius: 8px;
+            margin-top: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .map-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+            background-color: #f5f5f5;
         }
         
         /* ========== Buttons ========== */
@@ -490,8 +736,12 @@
 </head>
 <body>
     <div class="dashboard">
-        <!-- Modern Sidebar -->
-        <div class="sidebar">
+        <!-- Enhanced Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="toggle-sidebar" id="toggleSidebar">
+                <i class="fas fa-chevron-left"></i>
+            </div>
+            
             <div class="sidebar-header">
                 <div class="logo">
                     <img src="logo.png" alt="JomiBondhu">
@@ -499,27 +749,107 @@
                 </div>
             </div>
             
+            <div class="sidebar-search">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="খুঁজুন...">
+            </div>
+            
             <ul class="sidebar-menu">
-                <li><a href="index.html" class="active"><i class="fas fa-home"></i> হোম</a></li>
-                <li><a href="services.html"><i class="fas fa-concierge-bell"></i> সেবাসমূহ</a></li>
-                <li><a href="land-check.html"><i class="fas fa-search-location"></i> জমি খোঁজ</a></li>
-                <li><a href="dispute.html"><i class="fas fa-gavel"></i> বিরোধ নিষ্পত্তি</a></li>
-                <li><a href="contact.html"><i class="fas fa-envelope"></i> যোগাযোগ</a></li>
-                <li><a href="map.html"><i class="fas fa-map-marked-alt"></i> মানচিত্র</a></li>
-                <li><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> ড্যাশবোর্ড</a></li>
+                <li><a href="index.html" class="active">
+                    <i class="fas fa-home"></i>
+                    <span class="menu-text">হোম</span>
+                </a></li>
+                
+                <li class="has-submenu">
+                    <a href="#">
+                        <i class="fas fa-concierge-bell"></i>
+                        <span class="menu-text">সেবাসমূহ</span>
+                        <span class="menu-badge">3</span>
+                    </a>
+                    <ul class="submenu">
+                        <li><a href="#">
+                            <i class="fas fa-search-location"></i>
+                            <span class="menu-text">জমি খোঁজ</span>
+                        </a></li>
+                        <li><a href="#">
+                            <i class="fas fa-file-signature"></i>
+                            <span class="menu-text">রেজিস্ট্রেশন</span>
+                        </a></li>
+                        <li><a href="#">
+                            <i class="fas fa-gavel"></i>
+                            <span class="menu-text">বিরোধ নিষ্পত্তি</span>
+                        </a></li>
+                    </ul>
+                </li>
+                
+                <li><a href="map.html">
+                    <i class="fas fa-map-marked-alt"></i>
+                    <span class="menu-text">মানচিত্র</span>
+                </a></li>
+                
+                <li class="has-submenu">
+                    <a href="#">
+                        <i class="fas fa-file-alt"></i>
+                        <span class="menu-text">নথিপত্র</span>
+                    </a>
+                    <ul class="submenu">
+                        <li><a href="#">
+                            <i class="fas fa-file-contract"></i>
+                            <span class="menu-text">দলিলপত্র</span>
+                        </a></li>
+                        <li><a href="#">
+                            <i class="fas fa-receipt"></i>
+                            <span class="menu-text">ট্যাক্স রিসিট</span>
+                        </a></li>
+                        <li><a href="#">
+                            <i class="fas fa-file-pdf"></i>
+                            <span class="menu-text">রিপোর্ট</span>
+                        </a></li>
+                    </ul>
+                </li>
+                
+                <li><a href="transactions.html">
+                    <i class="fas fa-exchange-alt"></i>
+                    <span class="menu-text">লেনদেন</span>
+                    <span class="menu-badge">5</span>
+                </a></li>
+                
+                <li><a href="notifications.html">
+                    <i class="fas fa-bell"></i>
+                    <span class="menu-text">নোটিফিকেশন</span>
+                    <span class="menu-badge">2</span>
+                </a></li>
+                
+                <li><a href="support.html">
+                    <i class="fas fa-headset"></i>
+                    <span class="menu-text">সাপোর্ট</span>
+                </a></li>
+                
+                <li><a href="settings.html">
+                    <i class="fas fa-cog"></i>
+                    <span class="menu-text">সেটিংস</span>
+                </a></li>
             </ul>
             
             <div class="user-profile">
                 <div class="profile-info">
-                    <div class="profile-avatar">র</div>
+                    <div class="profile-avatar">
+                        র
+                        <div class="online-status"></div>
+                    </div>
                     <div class="profile-text">
                         <h4 id="userName">রহিমা বেগম</h4>
                         <p id="userLocation">ঢাকা, বাংলাদেশ</p>
                     </div>
                 </div>
-                <a href="#" id="logoutBtn" class="logout-btn">
-                    <i class="fas fa-sign-out-alt"></i> লগআউট
-                </a>
+                <div class="profile-actions">
+                    <a href="profile.html" class="profile-btn">
+                        <i class="fas fa-user"></i> প্রোফাইল
+                    </a>
+                    <a href="#" id="logoutBtn" class="profile-btn">
+                        <i class="fas fa-sign-out-alt"></i> লগআউট
+                    </a>
+                </div>
             </div>
         </div>
         
@@ -529,6 +859,11 @@
                 <div class="page-title">
                     <h1>ড্যাশবোর্ড ওভারভিউ</h1>
                     <p>আপনার জমি সম্পর্কিত সাম্প্রতিক তথ্য</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-sm">
+                        <i class="fas fa-bell"></i> নোটিফিকেশন
+                    </button>
                 </div>
             </div>
             
@@ -564,7 +899,7 @@
                 </div>
             </div>
             
-            <!-- 3-Card Content Section -->
+            <!-- First Row: 3-Card Content Section -->
             <div class="content-section">
                 <div class="section-header">
                     <h2 class="section-title">আমার জমিসমূহ</h2>
@@ -574,7 +909,7 @@
                 </div>
                 
                 <div class="card-grid">
-                    <!-- Card 1 -->
+                    <!-- Card 1: Land Summary -->
                     <div class="content-card">
                         <div class="card-header">
                             <h3>সর্বশেষ রেজিস্টার্ড জমি</h3>
@@ -601,10 +936,20 @@
                                 </div>
                                 <div class="land-area">০.২৫ একর</div>
                             </div>
+                            
+                            <div class="progress-container">
+                                <div class="progress-info">
+                                    <span>মোট জমি: ১.০৮ একর</span>
+                                    <span>১০০%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 100%"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     
-                    <!-- Card 2 -->
+                    <!-- Card 2: Disputes -->
                     <div class="content-card">
                         <div class="card-header">
                             <h3>সক্রিয় বিরোধসমূহ</h3>
@@ -615,26 +960,42 @@
                                     <h4>সীমানা সংক্রান্ত বিরোধ</h4>
                                     <p>খতিয়ান: ১২৩৪, দাগ: ৫৬</p>
                                 </div>
-                                <div class="land-area">চলমান</div>
+                                <div class="land-area">
+                                    <span class="badge" style="background-color: #FFA000; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem;">চলমান</span>
+                                </div>
                             </div>
                             <div class="land-item">
                                 <div class="land-info">
                                     <h4>মালিকানা দাবি</h4>
                                     <p>খতিয়ান: ৩৪৫৬, দাগ: ৭৮</p>
                                 </div>
-                                <div class="land-area">বিচারাধীন</div>
+                                <div class="land-area">
+                                    <span class="badge" style="background-color: #2196F3; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem;">বিচারাধীন</span>
+                                </div>
                             </div>
                             <div class="land-item">
                                 <div class="land-info">
                                     <h4>দলিল ত্রুটি</h4>
                                     <p>খতিয়ান: ৭৮৯০, দাগ: ১২</p>
                                 </div>
-                                <div class="land-area">নিষ্পত্তিকৃত</div>
+                                <div class="land-area">
+                                    <span class="badge" style="background-color: #4CAF50; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem;">নিষ্পত্তিকৃত</span>
+                                </div>
+                            </div>
+                            
+                            <div class="progress-container">
+                                <div class="progress-info">
+                                    <span>বিরোধের অগ্রগতি</span>
+                                    <span>৫০%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 50%"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
                     
-                    <!-- Card 3 -->
+                    <!-- Card 3: Transactions -->
                     <div class="content-card">
                         <div class="card-header">
                             <h3>সাম্প্রতিক লেনদেন</h3>
@@ -661,6 +1022,195 @@
                                 </div>
                                 <div class="transaction-amount amount-negative">- ১২০০ টাকা</div>
                             </div>
+                            
+                            <div class="progress-container">
+                                <div class="progress-info">
+                                    <span>মোট লেনদেন: ১২ টি</span>
+                                    <span>এই মাসে: ৩ টি</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Second Row: Additional Information -->
+            <div class="content-section">
+                <div class="section-header">
+                    <h2 class="section-title">অতিরিক্ত তথ্য</h2>
+                </div>
+                
+                <div class="card-grid">
+                    <!-- Card 4: Recent Activity -->
+                    <div class="content-card">
+                        <div class="card-header">
+                            <h3>সাম্প্রতিক কার্যক্রম</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-file-signature"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <h4>নতুন জমি রেজিস্টার্ড</h4>
+                                    <p>খতিয়ান: ১২৩৪, দাগ: ৫৬</p>
+                                    <div class="activity-time">২ দিন আগে</div>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-money-bill-wave"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <h4>ট্যাক্স পেমেন্ট সম্পন্ন</h4>
+                                    <p>পরিমাণ: ১২০০ টাকা</p>
+                                    <div class="activity-time">২ সপ্তাহ আগে</div>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-user-tie"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <h4>আইনজীবীর সাথে পরামর্শ</h4>
+                                    <p>বিরোধ নং: DIS-2023-45</p>
+                                    <div class="activity-time">১ মাস আগে</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Card 5: Land Map -->
+                    <div class="content-card">
+                        <div class="card-header">
+                            <h3>জমির অবস্থান</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="map-container">
+                                <div class="map-placeholder">
+                                    <i class="fas fa-map-marked-alt" style="font-size: 2rem; margin-right: 0.5rem;"></i>
+                                    <span>জমির মানচিত্র দেখুন</span>
+                                </div>
+                            </div>
+                            <div style="margin-top: 1rem;">
+                                <button class="btn btn-sm" style="width: 100%;">
+                                    <i class="fas fa-expand"></i> পূর্ণ স্ক্রিনে দেখুন
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Card 6: Upcoming Tasks -->
+                    <div class="content-card">
+                        <div class="card-header">
+                            <h3>আসন্ন কাজসমূহ</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="activity-item">
+                                <div class="activity-icon" style="background-color: rgba(255, 152, 0, 0.1); color: #FF9800;">
+                                    <i class="fas fa-calendar-day"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <h4>ট্যাক্স পেমেন্টের তারিখ</h4>
+                                    <p>পরিমাণ: ৮০০ টাকা</p>
+                                    <div class="activity-time">১৫ ডিসেম্বর, ২০২৩</div>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon" style="background-color: rgba(33, 150, 243, 0.1); color: #2196F3;">
+                                    <i class="fas fa-gavel"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <h4>বিরোধ শুনানির তারিখ</h4>
+                                    <p>বিরোধ নং: DIS-2023-45</p>
+                                    <div class="activity-time">২০ ডিসেম্বর, ২০২৩</div>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon" style="background-color: rgba(76, 175, 80, 0.1); color: #4CAF50;">
+                                    <i class="fas fa-file-alt"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <h4>নথি হালনাগাদের তারিখ</h4>
+                                    <p>খতিয়ান: ৫৬৭৮, দাগ: ১২</p>
+                                    <div class="activity-time">৫ জানুয়ারি, ২০২৪</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Third Row: Documents and Reports -->
+            <div class="content-section">
+                <div class="section-header">
+                    <h2 class="section-title">নথিপত্র ও রিপোর্ট</h2>
+                    <a href="documents.html" class="btn btn-sm">
+                        <i class="fas fa-folder-open"></i> সব নথি দেখুন
+                    </a>
+                </div>
+                
+                <div class="card-grid">
+                    <!-- Card 7: Important Documents -->
+                    <div class="content-card" style="grid-column: span 2;">
+                        <div class="card-header">
+                            <h3>গুরুত্বপূর্ণ নথিপত্র</h3>
+                        </div>
+                        <div class="card-body">
+                            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem;">
+                                <div style="border: 1px dashed rgba(0,0,0,0.1); border-radius: 8px; padding: 1rem; text-align: center;">
+                                    <i class="fas fa-file-contract" style="font-size: 2rem; color: var(--primary); margin-bottom: 0.5rem;"></i>
+                                    <h4 style="margin: 0.5rem 0; font-size: 0.95rem;">জমির দলিল</h4>
+                                    <p style="margin: 0; font-size: 0.8rem; color: var(--text-light);">আপলোড: ১৫ নভেম্বর, ২০২৩</p>
+                                    <button class="btn btn-sm" style="margin-top: 0.5rem; width: 100%;">
+                                        <i class="fas fa-download"></i> ডাউনলোড
+                                    </button>
+                                </div>
+                                <div style="border: 1px dashed rgba(0,0,0,0.1); border-radius: 8px; padding: 1rem; text-align: center;">
+                                    <i class="fas fa-receipt" style="font-size: 2rem; color: var(--primary); margin-bottom: 0.5rem;"></i>
+                                    <h4 style="margin: 0.5rem 0; font-size: 0.95rem;">ট্যাক্স রিসিট</h4>
+                                    <p style="margin: 0; font-size: 0.8rem; color: var(--text-light);">আপলোড: ১০ নভেম্বর, ২০২৩</p>
+                                    <button class="btn btn-sm" style="margin-top: 0.5rem; width: 100%;">
+                                        <i class="fas fa-download"></i> ডাউনলোড
+                                    </button>
+                                </div>
+                                <div style="border: 1px dashed rgba(0,0,0,0.1); border-radius: 8px; padding: 1rem; text-align: center;">
+                                    <i class="fas fa-file-signature" style="font-size: 2rem; color: var(--primary); margin-bottom: 0.5rem;"></i>
+                                    <h4 style="margin: 0.5rem 0; font-size: 0.95rem;">রেজিস্ট্রেশন কপি</h4>
+                                    <p style="margin: 0; font-size: 0.8rem; color: var(--text-light);">আপলোড: ৫ নভেম্বর, ২০২৩</p>
+                                    <button class="btn btn-sm" style="margin-top: 0.5rem; width: 100%;">
+                                        <i class="fas fa-download"></i> ডাউনলোড
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Card 8: Reports -->
+                    <div class="content-card">
+                        <div class="card-header">
+                            <h3>রিপোর্ট জেনারেট করুন</h3>
+                        </div>
+                        <div class="card-body">
+                            <div style="margin-bottom: 1rem;">
+                                <button class="btn btn-sm" style="width: 100%; margin-bottom: 0.5rem;">
+                                    <i class="fas fa-file-pdf"></i> জমি সারাংশ PDF
+                                </button>
+                                <button class="btn btn-sm" style="width: 100%; margin-bottom: 0.5rem;">
+                                    <i class="fas fa-file-excel"></i> লেনদেন রিপোর্ট
+                                </button>
+                                <button class="btn btn-sm" style="width: 100%;">
+                                    <i class="fas fa-file-word"></i> বিরোধ রিপোর্ট
+                                </button>
+                            </div>
+                            <div style="background-color: rgba(46, 125, 50, 0.05); padding: 1rem; border-radius: 8px;">
+                                <h4 style="margin: 0 0 0.5rem; font-size: 0.95rem;">সর্বশেষ রিপোর্ট</h4>
+                                <p style="margin: 0; font-size: 0.85rem; color: var(--text-light);">
+                                    <i class="fas fa-file-pdf" style="color: #F44336; margin-right: 0.5rem;"></i>
+                                    জমি_সারাংশ_২০২৩.pdf
+                                </p>
+                                <p style="margin: 0.25rem 0 0; font-size: 0.8rem;">জেনারেট: ১০ নভেম্বর, ২০২৩</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -669,37 +1219,49 @@
     </div>
 
     <script>
-        // DOM Elements
-        const userNameEl = document.getElementById('userName');
-        const userLocationEl = document.getElementById('userLocation');
-        const landCountEl = document.getElementById('landCount');
-        const disputeCountEl = document.getElementById('disputeCount');
-        const txCountEl = document.getElementById('txCount');
-        const lastLoginEl = document.getElementById('lastLogin');
-        const logoutBtn = document.getElementById('logoutBtn');
+        // Toggle Sidebar
+        const sidebar = document.getElementById('sidebar');
+        const toggleBtn = document.getElementById('toggleSidebar');
+        
+        toggleBtn.addEventListener('click', function() {
+            sidebar.classList.toggle('collapsed');
+        });
 
-        // Sample data - replace with actual API calls
-        const userData = {
-            name: "রহিমা বেগম",
-            location: "ঢাকা, বাংলাদেশ",
-            lands: 5,
-            disputes: 2,
-            transactions: 12,
-            lastLogin: "আজ"
-        };
+        // Submenu Toggle
+        const hasSubmenu = document.querySelectorAll('.has-submenu');
+        
+        hasSubmenu.forEach(item => {
+            item.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    e.preventDefault();
+                    this.classList.toggle('active');
+                    const submenu = this.querySelector('.submenu');
+                    submenu.classList.toggle('active');
+                }
+            });
+        });
 
         // Load user data
         function loadUserData() {
-            userNameEl.textContent = userData.name;
-            userLocationEl.textContent = userData.location;
-            landCountEl.textContent = userData.lands;
-            disputeCountEl.textContent = userData.disputes;
-            txCountEl.textContent = userData.transactions;
-            lastLoginEl.textContent = userData.lastLogin;
+            const userData = {
+                name: "রহিমা বেগম",
+                location: "ঢাকা, বাংলাদেশ",
+                lands: 5,
+                disputes: 2,
+                transactions: 12,
+                lastLogin: "আজ"
+            };
+            
+            document.getElementById('userName').textContent = userData.name;
+            document.getElementById('userLocation').textContent = userData.location;
+            document.getElementById('landCount').textContent = userData.lands;
+            document.getElementById('disputeCount').textContent = userData.disputes;
+            document.getElementById('txCount').textContent = userData.transactions;
+            document.getElementById('lastLogin').textContent = userData.lastLogin;
         }
 
         // Logout function
-        logoutBtn.addEventListener('click', function(e) {
+        document.getElementById('logoutBtn').addEventListener('click', function(e) {
             e.preventDefault();
             localStorage.removeItem('authToken');
             window.location.href = 'login.html';
@@ -707,6 +1269,14 @@
 
         // Initial load
         loadUserData();
+
+        // Simulate loading data
+        setTimeout(() => {
+            document.querySelectorAll('.progress-fill').forEach((fill, index) => {
+                const widths = ['100%', '50%', '75%'];
+                fill.style.width = widths[index] || '100%';
+            });
+        }, 500);
     </script>
 </body>
 </html>
